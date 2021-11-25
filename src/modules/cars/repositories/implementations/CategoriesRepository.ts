@@ -1,13 +1,20 @@
-import { Category } from "../modules/cars/model/Category";
-import { ICategoriesRepository, ICreateCategoryDTO } from "./ICategoriesRepository";
-
-
+import { Category } from "../../model/Category";
+import { ICategoriesRepository, ICreateCategoryDTO } from "../ICategoriesRepository";
 
 class CategoryRepository implements ICategoriesRepository {
   private categories: Category[];
 
-  constructor() {
+  private static INSTANCE: CategoryRepository;
+
+  private constructor() {
     this.categories = [];
+  }
+
+  public static getInstance(): CategoryRepository {
+    if(!CategoryRepository.INSTANCE) {
+      CategoryRepository.INSTANCE = new CategoryRepository();
+    }
+    return CategoryRepository.INSTANCE;
   }
 
   create({name, description}: ICreateCategoryDTO): void {
